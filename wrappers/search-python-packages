@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+# Link an existing Python utility to its personal help page.
+# Ordinary arguments go to the installed original command without modification.
+set -u
+
+# ----- Locate this checkout, including when invoked through a symlink ----------
+
+wrapper_path="${BASH_SOURCE[0]}"
+while [[ -L "$wrapper_path" ]]; do
+  wrapper_directory="$(cd -- "$(dirname -- "$wrapper_path")" && pwd -P)"
+  wrapper_path="$(readlink -- "$wrapper_path")"
+  if [[ "$wrapper_path" != /* ]]; then
+    wrapper_path="$wrapper_directory/$wrapper_path"
+  fi
+done
+repository_root="$(cd -- "$(dirname -- "$wrapper_path")/.." && pwd -P)"
+source "$repository_root/integrations/pman.sh"
+
+function show_personal_help {
+  # Use the interpreter explicitly, so help needs no separate pman installation.
+  python3 "$repository_root/bin/pman" --home "$repository_root" \
+    tools.search-python-packages "$@"
+}
+
+# ----- Route explicit extended-help requests before invoking the original ------
+
+if pman_is_help_request "$@"; then
+  show_personal_help "$@"
+  exit $?
+fi
+
+# --all is left available to the original command. Use --all-help for this page.
+original="${SEARCH_PYTHON_PACKAGES_ORIGINAL:-}"
+original="${original:-/usr/local/bin/search-python-packages}"
+if [[ ! -f "$original" || ! -x "$original" ]]; then
+  printf 'Original command is missing or not executable: %s\n' "$original" >&2
+  printf '%s\n' 'Set SEARCH_PYTHON_PACKAGES_ORIGINAL to its executable path.' >&2
+  exit 127
+fi
+if [[ "$original" -ef "$wrapper_path" ]]; then
+  printf '%s\n' 'The original command must not point back to this wrapper.' >&2
+  exit 2
+fi
+
+# ----- Native short help and normal execution ---------------------------------
+
+case "${1-}" in
+  -h|--help)
+    "$original" "$@"
+    help_status=$?
+    cat <<'HELP'
+
+Personal help (place the view flag first):
+  --long-help       Practical guide
+  --detailed-help   Options, defaults and failure conditions
+  --technical-help Candidate selection and ranking limitations
+  --list-examples   Usage examples only
+  --all-help        Complete personal page
+
+Help controls: --paging never, --pager 'less -R', --glow
+Save help: search-python-packages --all-help --save-only packages-help.html
+HELP
+    exit "$help_status"
+    ;;
+esac
+
+exec "$original" "$@"

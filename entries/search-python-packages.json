@@ -1,0 +1,7 @@
+{
+  "id": "tools.search-python-packages",
+  "title": "Search Python packages",
+  "summary": "Search PyPI names, compare recent downloads and export results.",
+  "aliases": ["search-python-packages", "search-py-pkgs"],
+  "file": "pages/search-python-packages.md"
+}
