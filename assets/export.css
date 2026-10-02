@@ -1,0 +1,36 @@
+:root {
+  color-scheme: light dark;
+  font-family: system-ui, sans-serif;
+  line-height: 1.6;
+}
+body {
+  max-width: 78ch;
+  margin: 3rem auto;
+  padding: 0 1.5rem;
+}
+h1, h2, h3 { line-height: 1.25; }
+pre {
+  overflow-x: auto;
+  padding: 1rem;
+  border: 1px solid #8886;
+  border-radius: 0.4rem;
+}
+code { font-family: ui-monospace, monospace; }
+table { border-collapse: collapse; width: 100%; }
+th, td {
+  text-align: left;
+  padding: 0.45rem 0.7rem;
+  border-bottom: 1px solid #8886;
+}
+blockquote {
+  margin-left: 0;
+  padding-left: 1rem;
+  border-left: 3px solid #8888;
+}
+math[display="block"] { overflow-x: auto; padding: 0.7rem 0; }
+@media print {
+  :root { color-scheme: light; font-size: 11pt; }
+  body { margin: 0; max-width: none; }
+  pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+  h1, h2, h3 { break-after: avoid; }
+}

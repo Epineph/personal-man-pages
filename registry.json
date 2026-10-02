@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "pages": [
+    {
+      "id": "pman",
+      "title": "Personal man-pages viewer",
+      "summary": "Read, select, save and preview personal help pages.",
+      "aliases": ["personal-man"],
+      "file": "pages/pman.md"
+    },
+    {
+      "id": "demo.greet",
+      "title": "Greeting script",
+      "summary": "A Bash script demonstrating extended-help integration.",
+      "aliases": ["greet"],
+      "file": "pages/greet.md"
+    },
+    {
+      "id": "demo.zscore",
+      "title": "Z-score demonstration",
+      "summary": "Standardize numbers; keep mathematical detail in its own view.",
+      "aliases": ["zscore"],
+      "file": "pages/zscore.md"
+    },
+    {
+      "id": "demo.croot",
+      "title": "Change to the help repository",
+      "summary": "A shell function with help that leaves the directory unchanged.",
+      "aliases": ["croot"],
+      "file": "pages/croot.md"
+    },
+    {
+      "id": "native.git-status",
+      "title": "Personal git status guide",
+      "summary": "Inspect staged, unstaged and untracked changes.",
+      "aliases": ["git-status"],
+      "file": "pages/git-status.md"
+    }
+  ]
+}
